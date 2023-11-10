@@ -81,5 +81,45 @@ describe('UserEntity integration tests', () => {
       };
       expect(() => new UserEntity(props)).toThrow(EntityValidationError);
     });
+
+    it('Should throw an error if the cpf is invalid', () => {
+      let props: UserProps = {
+        ...UserDataBuilder({}),
+        cpf: null,
+      };
+      expect(() => new UserEntity(props)).toThrow(EntityValidationError);
+
+      props = {
+        ...UserDataBuilder({}),
+        cpf: '',
+      };
+      expect(() => new UserEntity(props)).toThrow(EntityValidationError);
+
+      props = {
+        ...UserDataBuilder({}),
+        cpf: 'a'.repeat(101),
+      };
+      expect(() => new UserEntity(props)).toThrow(EntityValidationError);
+
+      props = {
+        ...UserDataBuilder({}),
+        cpf: 10 as any,
+      };
+      expect(() => new UserEntity(props)).toThrow(EntityValidationError);
+    });
+
+    it('Should throw an error if the createdAt is invalid', () => {
+      let props: UserProps = {
+        ...UserDataBuilder({}),
+        createdAt: '2023' as any,
+      };
+      expect(() => new UserEntity(props)).toThrow(EntityValidationError);
+
+      props = {
+        ...UserDataBuilder({}),
+        createdAt: 10 as any,
+      };
+      expect(() => new UserEntity(props)).toThrow(EntityValidationError);
+    });
   });
 });
