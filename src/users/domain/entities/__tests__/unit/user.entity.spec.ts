@@ -53,6 +53,12 @@ describe('UserEntity unit tests', () => {
     expect(sut.props.password).toEqual(newPassword);
   });
 
+  it('Should return the user cpf', () => {
+    expect(sut.props.cpf).toBeDefined();
+    expect(sut.props.cpf).toEqual(props.cpf);
+    expect(typeof sut.props.password).toBe('string');
+  });
+
   it('Should return the user created_at', () => {
     expect(sut.props.createdAt).toBeDefined();
     expect(sut.props.createdAt).toBeInstanceOf(Date);
