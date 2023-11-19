@@ -1,6 +1,7 @@
 import { UserRepository } from '@/users/domain/repositories/user.repository';
 import { BadRequestError } from '../errors/bad-request-error';
 import { UserEntity } from '@/users/domain/entities/user.entity';
+import { HashProvider } from '@/shared/application/providers/hash-provider';
 
 export namespace SignupUseCase {
   export type Input = {
@@ -20,7 +21,10 @@ export namespace SignupUseCase {
   };
 
   export class UseCase {
-    constructor(private userRepository: UserRepository.Repository) {}
+    constructor(
+      private userRepository: UserRepository.Repository,
+      private hashProvider: HashProvider,
+    ) {}
 
     async execute(input: Input): Promise<Output> {
       const { name, email, password, cpf } = input;
@@ -30,8 +34,10 @@ export namespace SignupUseCase {
       }
 
       await this.userRepository.emailExists(email);
-
-      const entity = new UserEntity(input);
+      const hashedPassword = await this.hashProvider.generateHash(password);
+      const entity = new UserEntity(
+        Object.assign(input, { password: hashedPassword }),
+      );
 
       await this.userRepository.insert(entity);
 
