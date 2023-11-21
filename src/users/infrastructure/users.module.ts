@@ -13,6 +13,7 @@ import { DeleteUserUseCase } from '../application/usecases/deleteuser.usecase';
 import { PrismaService } from '@/shared/infrastructure/database/prisma/prisma.service';
 import { UserPrismaRepository } from './database/prisma/repositories/user-prisma.repository';
 import { AuthModule } from '@/auth/infrastructure/auth.module';
+import { UpdatePhoneUseCase } from '../application/usecases/updatephone.usecase';
 
 @Module({
   imports: [AuthModule],
@@ -83,6 +84,13 @@ import { AuthModule } from '@/auth/infrastructure/auth.module';
         return new UpdatePasswordUseCase.UseCase(userRepository, hashProvider);
       },
       inject: ['UserRepository', 'HashProvider'],
+    },
+    {
+      provide: UpdatePhoneUseCase.UseCase,
+      useFactory: (userRepository: UserRepository.Repository) => {
+        return new UpdatePhoneUseCase.UseCase(userRepository);
+      },
+      inject: ['UserRepository'],
     },
     {
       provide: DeleteUserUseCase.UseCase,
