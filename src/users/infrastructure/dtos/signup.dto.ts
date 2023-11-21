@@ -19,4 +19,7 @@ export class SignupDto implements SignupUseCase.Input {
   @IsString()
   @IsNotEmpty()
   cpf: string;
+
+  @IsString()
+  phone: string;
 }

@@ -9,6 +9,7 @@ export class UserModelMapper {
       email: model.email,
       password: model.password,
       cpf: model.cpf,
+      phone: model.phone,
       createdAt: model.createdAt,
     };
 

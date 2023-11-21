@@ -32,12 +32,17 @@ export class UserRules {
   @IsNotEmpty()
   cpf: string;
 
+  @MaxLength(18)
+  @IsString()
+  @IsOptional()
+  phone?: string;
+
   @IsDate()
   @IsOptional()
   createdAt?: Date;
 
-  constructor({ name, email, password, cpf, createdAt }: UserProps) {
-    Object.assign(this, { name, email, password, cpf, createdAt });
+  constructor({ name, email, password, cpf, phone, createdAt }: UserProps) {
+    Object.assign(this, { name, email, password, cpf, phone, createdAt });
   }
 }
 

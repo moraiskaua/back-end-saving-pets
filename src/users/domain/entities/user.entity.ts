@@ -7,6 +7,7 @@ export type UserProps = {
   email: string;
   password: string;
   cpf: string;
+  phone?: string;
   createdAt?: Date;
 };
 
@@ -18,6 +19,7 @@ export class UserEntity extends Entity<UserProps> {
     UserEntity.validate(props);
     super(props, id);
     this.props.createdAt = this.props.createdAt ?? new Date();
+    this.props.phone = this.props.phone ?? '';
   }
 
   update(value: string): void {
@@ -28,6 +30,11 @@ export class UserEntity extends Entity<UserProps> {
   updatePassword(value: string): void {
     UserEntity.validate({ ...this.props, password: value });
     this.password = value;
+  }
+
+  updatePhone(value: string): void {
+    UserEntity.validate({ ...this.props, phone: value });
+    this.props.phone = value;
   }
 
   get name(): string {
@@ -52,6 +59,10 @@ export class UserEntity extends Entity<UserProps> {
 
   get cpf(): string {
     return this.props.cpf;
+  }
+
+  get phone(): string {
+    return this.props.phone;
   }
 
   get createdAt(): Date {

@@ -11,6 +11,7 @@ export namespace SignupUseCase {
     email: string;
     password: string;
     cpf: string;
+    phone: string;
   };
 
   export type Output = UserOutput;
