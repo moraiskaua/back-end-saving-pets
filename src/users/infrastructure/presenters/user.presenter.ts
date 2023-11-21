@@ -8,6 +8,7 @@ export class UserPresenter {
   id: string;
   name: string;
   email: string;
+  cpf: string;
   phone: string;
 
   @Transform(({ value }: { value: Date }) => value.toISOString())
@@ -17,8 +18,9 @@ export class UserPresenter {
     this.id = output.id;
     this.name = output.name;
     this.email = output.email;
-    this.createdAt = output.createdAt;
+    this.cpf = output.cpf;
     this.phone = output.phone;
+    this.createdAt = output.createdAt;
   }
 }
 
