@@ -24,7 +24,7 @@ export class PaginationPresenter {
   constructor(props: PaginationPresenterProps) {
     this.currentPage = props.currentPage;
     this.perPage = props.perPage;
-    this.lastPage = props.perPage;
+    this.lastPage = props.lastPage;
     this.total = props.total;
   }
 }
