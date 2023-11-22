@@ -9,7 +9,7 @@
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
-    "vercel-build": "nest build && npx prisma migrate deploy --schema=src/shared/infrastructure/database/prisma/schema.prisma && npm run start:prod",
+    "vercel-build": "nest build && npx prisma migrate dev --schema=src/shared/infrastructure/database/prisma/schema.prisma && npm run start:prod",
     "start:dev": "npx dotenv-cli -e .env.development -- nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/src/main",
