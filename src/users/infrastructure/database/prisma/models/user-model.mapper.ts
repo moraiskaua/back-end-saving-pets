@@ -1,9 +1,9 @@
 import { ValidationError } from '@/shared/domain/errors/validation-error';
 import { UserEntity } from '@/users/domain/entities/user.entity';
-import { User } from '@prisma/client';
+import { User as UserPrisma } from '@prisma/client';
 
 export class UserModelMapper {
-  static toEntity(model: User) {
+  static toEntity(model: UserPrisma) {
     const data = {
       name: model.name,
       email: model.email,
