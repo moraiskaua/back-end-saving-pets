@@ -6,7 +6,7 @@
       "use": "@vercel/node",
       "config": {
         "buildCommand": "npm run vercel-build",
-        "startCommand": "npm run start:prod"
+        "startCommand": "npm run start:dev"
       }
     }
   ],
