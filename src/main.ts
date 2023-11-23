@@ -12,11 +12,15 @@ async function bootstrap() {
     new FastifyAdapter(),
     { cors: true },
   );
+  app.enableCors({
+    origin: 'https://front-end-saving-pets.vercel.app',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+  });
+
   applyGlobalConfig(app);
   const port = process.env.PORT || 3000;
-  await app.listen(port, () => {
-    console.log(`Application is running on: ${app.getUrl()}`);
-  });
+  await app.listen(port);
 }
 
 bootstrap();
