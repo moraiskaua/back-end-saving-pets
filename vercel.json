@@ -8,11 +8,5 @@
         "startCommand": "npm run start:prod"
       }
     }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "dist/src/main.js"
-    }
   ]
 }

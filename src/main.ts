@@ -13,7 +13,10 @@ async function bootstrap() {
     { cors: true },
   );
   applyGlobalConfig(app);
-  await app.listen(8080);
+  const port = process.env.PORT || 3000;
+  await app.listen(port, () => {
+    console.log(`Application is running on: ${app.getUrl()}`);
+  });
 }
 
 bootstrap();
