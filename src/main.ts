@@ -14,10 +14,7 @@ async function bootstrap() {
   );
 
   app.register(cors, {
-    origin: [
-      'https://front-end-saving-pets.vercel.app',
-      'http://localhost:3000',
-    ],
+    origin: ['https://saving-pets.vercel.app', 'http://localhost:3000'],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
