@@ -14,14 +14,14 @@ async function bootstrap() {
   );
 
   app.register(cors, {
-    origin: ['https://saving-pets.vercel.app', 'http://localhost:3000'],
+    origin: ['https://saving-pets.vercel.app'],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
 
   applyGlobalConfig(app);
 
-  const port = process.env.PORT || 3000;
+  const port = process.env.PORT || 8080;
   await app.listen(port);
 }
 
