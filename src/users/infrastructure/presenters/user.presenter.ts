@@ -6,6 +6,7 @@ import { Transform } from 'class-transformer';
 
 export class UserPresenter {
   id: string;
+  image: string;
   name: string;
   email: string;
   cpf: string;
@@ -16,6 +17,7 @@ export class UserPresenter {
 
   constructor(output: UserOutput) {
     this.id = output.id;
+    this.image = output.image;
     this.name = output.name;
     this.email = output.email;
     this.cpf = output.cpf;

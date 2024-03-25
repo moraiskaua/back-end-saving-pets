@@ -2,6 +2,7 @@ import { UserEntity } from '@/users/domain/entities/user.entity';
 
 export type UserOutput = {
   id: string;
+  image: string;
   name: string;
   email: string;
   password: string;

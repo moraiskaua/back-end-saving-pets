@@ -38,6 +38,11 @@ export class UserEntity extends Entity<UserProps> {
     this.props.phone = value;
   }
 
+  updateImage(value: string): void {
+    UserEntity.validate({ ...this.props, image: value });
+    this.props.image = value;
+  }
+
   get name(): string {
     return this.props.name;
   }

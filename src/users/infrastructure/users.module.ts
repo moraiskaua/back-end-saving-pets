@@ -14,6 +14,7 @@ import { PrismaService } from '@/shared/infrastructure/database/prisma/prisma.se
 import { UserPrismaRepository } from './database/prisma/repositories/user-prisma.repository';
 import { AuthModule } from '@/auth/infrastructure/auth.module';
 import { UpdatePhoneUseCase } from '../application/usecases/updatephone.usecase';
+import { UpdateImageUseCase } from '../application/usecases/updateimage.usecase';
 
 @Module({
   imports: [AuthModule],
@@ -89,6 +90,13 @@ import { UpdatePhoneUseCase } from '../application/usecases/updatephone.usecase'
       provide: UpdatePhoneUseCase.UseCase,
       useFactory: (userRepository: UserRepository.Repository) => {
         return new UpdatePhoneUseCase.UseCase(userRepository);
+      },
+      inject: ['UserRepository'],
+    },
+    {
+      provide: UpdateImageUseCase.UseCase,
+      useFactory: (userRepository: UserRepository.Repository) => {
+        return new UpdateImageUseCase.UseCase(userRepository);
       },
       inject: ['UserRepository'],
     },
