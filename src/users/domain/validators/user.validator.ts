@@ -17,7 +17,8 @@ export class UserRules {
   name: string;
 
   @IsString()
-  image: string;
+  @IsOptional()
+  image?: string;
 
   @MaxLength(255)
   @IsString()
@@ -37,8 +38,7 @@ export class UserRules {
 
   @MaxLength(18)
   @IsString()
-  @IsOptional()
-  phone?: string;
+  phone: string;
 
   @IsDate()
   @IsOptional()
