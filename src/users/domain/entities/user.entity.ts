@@ -4,6 +4,7 @@ import { EntityValidationError } from '@/shared/domain/errors/validation-error';
 
 export type UserProps = {
   name: string;
+  image?: string;
   email: string;
   password: string;
   cpf: string;
@@ -43,6 +44,14 @@ export class UserEntity extends Entity<UserProps> {
 
   private set name(value: string) {
     this.props.name = value;
+  }
+
+  get image(): string {
+    return this.props.image;
+  }
+
+  private set image(value: string) {
+    this.props.image = value;
   }
 
   get email(): string {
