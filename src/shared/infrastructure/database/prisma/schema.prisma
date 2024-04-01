@@ -26,12 +26,12 @@ model User {
 }
 
 model Report {
-  id          String   @id @db.Uuid
-  title       String   @db.VarChar(100)
+  id          String      @id @db.Uuid
+  type        TypeOfAbuse @default(ABANDONO)
   description String
   location    String
   images      String[]
-  createdAt   DateTime @default(now())
+  createdAt   DateTime    @default(now())
 
   userId String @db.Uuid
   user   User   @relation(fields: [userId], references: [id])
@@ -39,10 +39,17 @@ model Report {
   @@map("reports")
 }
 
+enum TypeOfAbuse {
+  ABANDONO
+  AGRESSAO
+  NEGLIGENCIA
+  EXPLORACAO
+  OUTROS
+}
+
 model Shelter {
   id           String   @id @db.Uuid
   name         String   @db.VarChar(100)
-  description  String
   email        String   @unique @db.VarChar(255)
   phone        String   @db.VarChar(18)
   address      String
