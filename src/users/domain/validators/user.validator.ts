@@ -38,6 +38,7 @@ export class UserRules {
 
   @MaxLength(18)
   @IsString()
+  @IsNotEmpty()
   phone: string;
 
   @IsDate()

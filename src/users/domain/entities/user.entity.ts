@@ -8,7 +8,7 @@ export type UserProps = {
   email: string;
   password: string;
   cpf: string;
-  phone?: string;
+  phone: string;
   createdAt?: Date;
 };
 
@@ -20,7 +20,6 @@ export class UserEntity extends Entity<UserProps> {
     UserEntity.validate(props);
     super(props, id);
     this.props.createdAt = this.props.createdAt ?? new Date();
-    this.props.phone = this.props.phone ?? '';
   }
 
   update(value: string): void {
