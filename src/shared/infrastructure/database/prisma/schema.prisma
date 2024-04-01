@@ -20,6 +20,36 @@ model User {
   cpf       String   @unique
   phone     String   @db.VarChar(18)
   createdAt DateTime @default(now())
+  Report    Report[]
 
   @@map("users")
+}
+
+model Report {
+  id          String   @id @db.Uuid
+  title       String   @db.VarChar(100)
+  description String
+  location    String
+  images      String[]
+  createdAt   DateTime @default(now())
+
+  userId String @db.Uuid
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@map("reports")
+}
+
+model Shelter {
+  id           String   @id @db.Uuid
+  name         String   @db.VarChar(100)
+  description  String
+  email        String   @unique @db.VarChar(255)
+  phone        String   @db.VarChar(18)
+  address      String
+  website      String?
+  openingHours String
+  images       String[]
+  createdAt    DateTime @default(now())
+
+  @@map("shelters")
 }
