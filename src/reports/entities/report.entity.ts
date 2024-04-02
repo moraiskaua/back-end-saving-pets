@@ -6,6 +6,7 @@ export type ReportProps = {
   type: TypeOfAbuse;
   description: string;
   location: string;
+  status: TypeOfStatus;
   images: string[];
   userId: string;
   createdAt?: Date;
@@ -17,6 +18,8 @@ export type TypeOfAbuse =
   | 'NEGLIGENCIA'
   | 'EXPLORACAO'
   | 'OUTROS';
+
+export type TypeOfStatus = 'EM_ABERTO' | 'EM_ANDAMENTO' | 'ATENDIDO';
 
 export class ReportEntity extends Entity<ReportProps> {
   constructor(
@@ -41,6 +44,11 @@ export class ReportEntity extends Entity<ReportProps> {
   updateLocation(value: string): void {
     ReportEntity.validate({ ...this.props, location: value });
     this.props.location = value;
+  }
+
+  updateStatus(value: TypeOfStatus): void {
+    ReportEntity.validate({ ...this.props, status: value });
+    this.props.status = value;
   }
 
   updateImages(value: string[]): void {
@@ -78,6 +86,14 @@ export class ReportEntity extends Entity<ReportProps> {
 
   private set images(value: string[]) {
     this.props.images = value;
+  }
+
+  get status(): TypeOfStatus {
+    return this.props.status;
+  }
+
+  private set status(value: TypeOfStatus) {
+    this.props.status = value;
   }
 
   get userId(): string {

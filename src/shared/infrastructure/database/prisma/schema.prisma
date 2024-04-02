@@ -26,12 +26,13 @@ model User {
 }
 
 model Report {
-  id          String      @id @db.Uuid
-  type        TypeOfAbuse @default(ABANDONO)
+  id          String       @id @db.Uuid
+  type        TypeOfAbuse  @default(ABANDONO)
+  status      TypeOfStatus @default(EM_ABERTO)
   description String
   location    String
   images      String[]
-  createdAt   DateTime    @default(now())
+  createdAt   DateTime     @default(now())
 
   userId String @db.Uuid
   user   User   @relation(fields: [userId], references: [id])
@@ -45,6 +46,12 @@ enum TypeOfAbuse {
   NEGLIGENCIA
   EXPLORACAO
   OUTROS
+}
+
+enum TypeOfStatus {
+  EM_ABERTO
+  EM_ANDAMENTO
+  ATENDIDO
 }
 
 model Shelter {

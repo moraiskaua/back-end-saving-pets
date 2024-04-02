@@ -11,6 +11,7 @@ import { UpdateReportUseCase } from '../aplication/usecases/updatereport.usecase
 import { DeleteReportUseCase } from '../aplication/usecases/deletereport.usecase';
 import { UpdateDescriptionUseCase } from '../aplication/usecases/updatedescription.usecase';
 import { UpdateLocationUseCase } from '../aplication/usecases/updatelocation.usecase';
+import { UpdateStatusUseCase } from '../aplication/usecases/updatestatus.usecase';
 
 @Module({
   imports: [AuthModule],
@@ -80,6 +81,13 @@ import { UpdateLocationUseCase } from '../aplication/usecases/updatelocation.use
       provide: UpdateLocationUseCase.UseCase,
       useFactory: (reportRepository: ReportRepository.Repository) => {
         return new UpdateLocationUseCase.UseCase(reportRepository);
+      },
+      inject: ['ReportRepository'],
+    },
+    {
+      provide: UpdateStatusUseCase.UseCase,
+      useFactory: (reportRepository: ReportRepository.Repository) => {
+        return new UpdateStatusUseCase.UseCase(reportRepository);
       },
       inject: ['ReportRepository'],
     },

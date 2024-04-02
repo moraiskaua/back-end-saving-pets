@@ -9,6 +9,7 @@ export class ReportModelMapper {
       type: model.type,
       description: model.description,
       location: model.location,
+      status: model.status,
       images: model.images,
       userId: model.userId,
       createdAt: model.createdAt,

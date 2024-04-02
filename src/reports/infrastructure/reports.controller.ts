@@ -28,6 +28,8 @@ import { UpdateDescriptionDto } from '../aplication/dto/updatedescription.dto';
 import { UpdateDescriptionUseCase } from '../aplication/usecases/updatedescription.usecase';
 import { UpdateLocationDto } from '../aplication/dto/updatelocation.dto';
 import { UpdateLocationUseCase } from '../aplication/usecases/updatelocation.usecase';
+import { UpdateStatusDto } from '../aplication/dto/updatestatus.dto';
+import { UpdateStatusUseCase } from '../aplication/usecases/updatestatus.usecase';
 
 @Controller('reports')
 export class ReportsController {
@@ -45,6 +47,9 @@ export class ReportsController {
 
   @Inject(UpdateLocationUseCase.UseCase)
   private updateLocationUseCase: UpdateLocationUseCase.UseCase;
+
+  @Inject(UpdateStatusUseCase.UseCase)
+  private updateStatusUseCase: UpdateStatusUseCase.UseCase;
 
   @Inject(DeleteReportUseCase.UseCase)
   private deleteReportUseCase: DeleteReportUseCase.UseCase;
@@ -107,6 +112,20 @@ export class ReportsController {
     const output = await this.updateLocationUseCase.execute({
       id,
       ...updateLocationDto,
+    });
+
+    return ReportsController.reportToResponse(output);
+  }
+
+  @UseGuards(AuthGuard)
+  @Patch(':id/status')
+  async updateStatus(
+    @Param('id') id: string,
+    @Body() updateStatusDto: UpdateStatusDto,
+  ) {
+    const output = await this.updateStatusUseCase.execute({
+      id,
+      ...updateStatusDto,
     });
 
     return ReportsController.reportToResponse(output);
