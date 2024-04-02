@@ -10,6 +10,7 @@ import {
   Put,
   HttpCode,
   Patch,
+  Query,
 } from '@nestjs/common';
 import {
   ReportCollectionPresenter,
@@ -31,11 +32,15 @@ import { UpdateLocationUseCase } from '../aplication/usecases/updatelocation.use
 import { UpdateStatusDto } from '../aplication/dto/updatestatus.dto';
 import { UpdateStatusUseCase } from '../aplication/usecases/updatestatus.usecase';
 import { ActiveUserId } from '@/shared/domain/decorators/ActiveUserId';
+import { ListReportsDto } from '../aplication/dto/listreports.dto';
 
 @Controller('reports')
 export class ReportsController {
   @Inject(CreateReportUseCase.UseCase)
   private createReportUseCase: CreateReportUseCase.UseCase;
+
+  @Inject(ListReportsUseCase.UseCase)
+  private listReportsUseCase: ListReportsUseCase.UseCase;
 
   @Inject(GetReportUseCase.UseCase)
   private getReportUseCase: GetReportUseCase.UseCase;
@@ -74,6 +79,13 @@ export class ReportsController {
       createReportDto,
     );
     return ReportsController.reportToResponse(output);
+  }
+
+  @UseGuards(AuthGuard)
+  @Get()
+  async search(@Query() searchParams: ListReportsDto) {
+    const output = await this.listReportsUseCase.execute(searchParams);
+    return ReportsController.listReportsToResponse(output);
   }
 
   @UseGuards(AuthGuard)
