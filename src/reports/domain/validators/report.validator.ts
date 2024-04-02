@@ -6,6 +6,7 @@ import {
 } from '@/reports/entities/report.entity';
 import { ClassValidatorFields } from '@/shared/domain/validators/class-validator-fields';
 import {
+  IsArray,
   IsDate,
   IsNotEmpty,
   IsOptional,
@@ -25,16 +26,16 @@ export class ReportRules {
   @IsNotEmpty()
   location: string;
 
-  @IsString()
+  @IsArray()
   @IsNotEmpty()
-  images: string;
+  images: string[];
 
   @IsString()
   @IsNotEmpty()
   status: TypeOfStatus;
 
   @IsUUID()
-  @IsNotEmpty()
+  @IsString()
   userId: string;
 
   @IsDate()
@@ -46,8 +47,8 @@ export class ReportRules {
     description,
     location,
     images,
-    userId,
     status,
+    userId,
     createdAt,
   }: ReportProps) {
     {
@@ -56,8 +57,8 @@ export class ReportRules {
         description,
         location,
         images,
-        userId,
         status,
+        userId,
         createdAt,
       });
     }

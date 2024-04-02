@@ -63,6 +63,7 @@ export class ReportsController {
     return new ReportCollectionPresenter(output);
   }
 
+  @UseGuards(AuthGuard)
   @Post()
   async create(
     @ActiveUserId() userId: string,

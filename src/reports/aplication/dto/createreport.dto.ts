@@ -1,6 +1,6 @@
 /* eslint-disable indent */
 import { TypeOfAbuse, TypeOfStatus } from '@/reports/entities/report.entity';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsArray, IsNotEmpty, IsString, IsUUID } from 'class-validator';
 import { CreateReportUseCase } from '../usecases/createreport.usecase';
 
 export class CreateReportDto implements CreateReportUseCase.Input {
@@ -21,6 +21,10 @@ export class CreateReportDto implements CreateReportUseCase.Input {
   status: TypeOfStatus;
 
   @IsString()
+  @IsUUID()
+  userId: string;
+
+  @IsArray()
   @IsNotEmpty()
   images: string[];
 }
