@@ -1,10 +1,11 @@
 /* eslint-disable indent */
-import { TypeOfAbuse } from '@/reports/entities/report.entity';
+import { TypeOfAbuse, TypeOfStatus } from '@/reports/entities/report.entity';
 import { IsNotEmpty, IsString } from 'class-validator';
 import { CreateReportUseCase } from '../usecases/createreport.usecase';
 
 export class CreateReportDto implements CreateReportUseCase.Input {
   @IsString()
+  @IsNotEmpty()
   type: TypeOfAbuse;
 
   @IsString()
@@ -14,6 +15,10 @@ export class CreateReportDto implements CreateReportUseCase.Input {
   @IsString()
   @IsNotEmpty()
   location: string;
+
+  @IsString()
+  @IsNotEmpty()
+  status: TypeOfStatus;
 
   @IsString()
   @IsNotEmpty()
