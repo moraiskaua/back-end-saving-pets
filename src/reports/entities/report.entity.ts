@@ -7,16 +7,16 @@ export type ReportProps = {
   description: string;
   location: string;
   images: string[];
-  createdAt: Date;
+  userId: string;
+  createdAt?: Date;
 };
 
-export enum TypeOfAbuse {
-  ABANDONO,
-  AGRESSAO,
-  NEGLIGENCIA,
-  EXPLORACAO,
-  OUTROS,
-}
+export type TypeOfAbuse =
+  | 'ABANDONO'
+  | 'AGRESSAO'
+  | 'NEGLIGENCIA'
+  | 'EXPLORACAO'
+  | 'OUTROS';
 
 export class ReportEntity extends Entity<ReportProps> {
   constructor(
@@ -78,6 +78,10 @@ export class ReportEntity extends Entity<ReportProps> {
 
   private set images(value: string[]) {
     this.props.images = value;
+  }
+
+  get userId(): string {
+    return this.props.userId;
   }
 
   get createdAt(): Date {

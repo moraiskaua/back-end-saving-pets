@@ -3,14 +3,15 @@ import { ReportProps, TypeOfAbuse } from '@/reports/entities/report.entity';
 import { ClassValidatorFields } from '@/shared/domain/validators/class-validator-fields';
 import {
   IsDate,
-  IsEnum,
   IsNotEmpty,
   IsOptional,
   IsString,
+  IsUUID,
+  isUUID,
 } from 'class-validator';
 
 export class ReportRules {
-  @IsEnum(TypeOfAbuse)
+  @IsString()
   type: TypeOfAbuse;
 
   @IsString()
@@ -25,13 +26,31 @@ export class ReportRules {
   @IsNotEmpty()
   images: string;
 
+  @IsUUID()
+  @IsNotEmpty()
+  userId: string;
+
   @IsDate()
   @IsOptional()
-  createdAt: Date;
+  createdAt?: Date;
 
-  constructor({ type, description, location, images, createdAt }) {
+  constructor({
+    type,
+    description,
+    location,
+    images,
+    userId,
+    createdAt,
+  }: ReportProps) {
     {
-      Object.assign(this, { type, description, location, images, createdAt });
+      Object.assign(this, {
+        type,
+        description,
+        location,
+        images,
+        userId,
+        createdAt,
+      });
     }
   }
 }
