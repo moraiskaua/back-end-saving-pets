@@ -30,6 +30,7 @@ import { UpdateLocationDto } from '../aplication/dto/updatelocation.dto';
 import { UpdateLocationUseCase } from '../aplication/usecases/updatelocation.usecase';
 import { UpdateStatusDto } from '../aplication/dto/updatestatus.dto';
 import { UpdateStatusUseCase } from '../aplication/usecases/updatestatus.usecase';
+import { ActiveUserId } from '@/shared/domain/decorators/ActiveUserId';
 
 @Controller('reports')
 export class ReportsController {
@@ -63,8 +64,14 @@ export class ReportsController {
   }
 
   @Post()
-  async create(@Body() createReportDto: CreateReportDto) {
-    const output = await this.createReportUseCase.execute(createReportDto);
+  async create(
+    @ActiveUserId() userId: string,
+    @Body() createReportDto: CreateReportDto,
+  ) {
+    const output = await this.createReportUseCase.execute(
+      userId,
+      createReportDto,
+    );
     return ReportsController.reportToResponse(output);
   }
 

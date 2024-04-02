@@ -1,5 +1,9 @@
 /* eslint-disable indent */
-import { ReportProps, TypeOfAbuse } from '@/reports/entities/report.entity';
+import {
+  ReportProps,
+  TypeOfAbuse,
+  TypeOfStatus,
+} from '@/reports/entities/report.entity';
 import { ClassValidatorFields } from '@/shared/domain/validators/class-validator-fields';
 import {
   IsDate,
@@ -7,7 +11,6 @@ import {
   IsOptional,
   IsString,
   IsUUID,
-  isUUID,
 } from 'class-validator';
 
 export class ReportRules {
@@ -26,6 +29,10 @@ export class ReportRules {
   @IsNotEmpty()
   images: string;
 
+  @IsString()
+  @IsNotEmpty()
+  status: TypeOfStatus;
+
   @IsUUID()
   @IsNotEmpty()
   userId: string;
@@ -40,6 +47,7 @@ export class ReportRules {
     location,
     images,
     userId,
+    status,
     createdAt,
   }: ReportProps) {
     {
@@ -49,6 +57,7 @@ export class ReportRules {
         location,
         images,
         userId,
+        status,
         createdAt,
       });
     }
