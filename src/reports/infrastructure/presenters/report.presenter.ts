@@ -1,7 +1,7 @@
 /* eslint-disable indent */
 import { ReportOutput } from '@/reports/aplication/dto/report-output';
 import { ListReportsUseCase } from '@/reports/aplication/usecases/listreports.usecase';
-import { TypeOfAbuse } from '@/reports/entities/report.entity';
+import { TypeOfAbuse, TypeOfStatus } from '@/reports/entities/report.entity';
 import { CollectionPresenter } from '@/shared/infrastructure/presenters/collection.presenter';
 import { Transform } from 'class-transformer';
 
@@ -10,6 +10,7 @@ export class ReportPresenter {
   type: TypeOfAbuse;
   description: string;
   location: string;
+  status: TypeOfStatus;
   images: string[];
 
   @Transform(({ value }: { value: Date }) => value.toISOString())
@@ -20,6 +21,7 @@ export class ReportPresenter {
     this.type = output.type;
     this.description = output.description;
     this.location = output.location;
+    this.status = output.status;
     this.images = output.images;
     this.createdAt = output.createdAt;
   }
