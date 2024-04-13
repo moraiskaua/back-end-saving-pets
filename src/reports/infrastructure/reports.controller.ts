@@ -83,8 +83,11 @@ export class ReportsController {
 
   @UseGuards(AuthGuard)
   @Get()
-  async search(@Query() searchParams: ListReportsDto) {
-    const output = await this.listReportsUseCase.execute(searchParams);
+  async search(
+    @ActiveUserId() userId: string,
+    @Query() searchParams: ListReportsDto,
+  ) {
+    const output = await this.listReportsUseCase.execute(userId, searchParams);
     return ReportsController.listReportsToResponse(output);
   }
 

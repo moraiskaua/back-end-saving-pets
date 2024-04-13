@@ -18,4 +18,7 @@ export class ListReportsDto implements ListReportsUseCase.Input {
 
   @IsOptional()
   filter?: string;
+
+  @IsOptional()
+  userId?: string;
 }

@@ -12,6 +12,7 @@ export class ReportPresenter {
   location: string;
   status: TypeOfStatus;
   images: string[];
+  userId: string;
 
   @Transform(({ value }: { value: Date }) => value.toISOString())
   createdAt: Date;
@@ -23,6 +24,7 @@ export class ReportPresenter {
     this.location = output.location;
     this.status = output.status;
     this.images = output.images;
+    this.userId = output.userId;
     this.createdAt = output.createdAt;
   }
 }

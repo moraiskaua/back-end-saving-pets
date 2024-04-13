@@ -5,42 +5,44 @@ import { NotFoundError } from '@/shared/domain/errors/not-found-error';
 import { PrismaService } from '@/shared/infrastructure/database/prisma/prisma.service';
 
 export class ReportPrismaRepository implements ReportRepository.Repository {
+  sortableFields: string[] = ['createdAt'];
+
   constructor(private prismaService: PrismaService) {}
-  sortableFields: string[];
 
   async search(
     props: ReportRepository.SearchParams,
   ): Promise<ReportRepository.SearchResult> {
-    const sortable = false;
+    const sortable = this.sortableFields.includes(props.sort) || false;
     const orderByField = sortable ? props.sort : 'createdAt';
     const orderByDir = sortable ? props.sortDir : 'desc';
 
     const count = await this.prismaService.report.count({
-      ...(props.filter && {
-        where: {
+      where: {
+        ...(props.filter && {
           description: {
             contains: props.filter,
             mode: 'insensitive',
           },
-        },
-      }),
+        }),
+        ...(props.userId && { userId: props.userId }),
+      },
     });
 
     const models = await this.prismaService.report.findMany({
-      ...(props.filter && {
-        where: {
+      where: {
+        ...(props.filter && {
           description: {
             contains: props.filter,
             mode: 'insensitive',
           },
-        },
-        orderBy: {
-          [orderByField]: orderByDir,
-        },
-        skip:
-          props.page && props.page > 0 ? (props.page - 1) * props.perPage : 1,
-        take: props.perPage && props.perPage > 0 ? props.perPage : 15,
-      }),
+        }),
+        ...(props.userId && { userId: props.userId }),
+      },
+      orderBy: {
+        [orderByField]: orderByDir,
+      },
+      skip: props.page && props.page > 0 ? (props.page - 1) * props.perPage : 1,
+      take: props.perPage && props.perPage > 0 ? props.perPage : 15,
     });
 
     return new ReportRepository.SearchResult({

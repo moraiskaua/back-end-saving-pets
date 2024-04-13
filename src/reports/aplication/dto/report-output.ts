@@ -12,6 +12,7 @@ export type ReportOutput = {
   status: TypeOfStatus;
   images: string[];
   createdAt: Date;
+  userId: string;
 };
 
 export class ReportOutputMapper {
