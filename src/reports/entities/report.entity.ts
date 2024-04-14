@@ -1,6 +1,7 @@
 import { Entity } from '@/shared/domain/entities/entity';
 import { ReportValidatorFactory } from '../domain/validators/report.validator';
 import { EntityValidationError } from '@/shared/domain/errors/validation-error';
+import { UpdateReportDto } from '../aplication/dto/updatereport.dto';
 
 export type ReportProps = {
   type: TypeOfAbuse;
@@ -31,9 +32,14 @@ export class ReportEntity extends Entity<ReportProps> {
     this.props.createdAt = this.props.createdAt ?? new Date();
   }
 
-  update(value: TypeOfAbuse): void {
-    ReportEntity.validate({ ...this.props, type: value });
-    this.type = value;
+  update(updateReportDto: UpdateReportDto): void {
+    const newProps: ReportProps = {
+      ...this.props,
+      ...updateReportDto,
+    };
+
+    ReportEntity.validate(newProps);
+    Object.assign(this.props, updateReportDto);
   }
 
   updateDescription(value: string): void {
