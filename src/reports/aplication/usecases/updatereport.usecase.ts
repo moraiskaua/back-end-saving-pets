@@ -4,7 +4,6 @@ import { ReportOutput, ReportOutputMapper } from '../dto/report-output';
 import { ReportRepository } from '@/reports/domain/repositories/report.repository';
 import { TypeOfAbuse, TypeOfStatus } from '@/reports/entities/report.entity';
 import { NotFoundError } from '@/shared/domain/errors/not-found-error';
-import { UpdateReportDto } from '../dto/updatereport.dto';
 
 export namespace UpdateReportUseCase {
   export type Input = {

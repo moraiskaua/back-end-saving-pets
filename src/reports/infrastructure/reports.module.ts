@@ -9,9 +9,6 @@ import { GetReportUseCase } from '../aplication/usecases/getreport.usecase';
 import { ListReportsUseCase } from '../aplication/usecases/listreports.usecase';
 import { UpdateReportUseCase } from '../aplication/usecases/updatereport.usecase';
 import { DeleteReportUseCase } from '../aplication/usecases/deletereport.usecase';
-import { UpdateDescriptionUseCase } from '../aplication/usecases/updatedescription.usecase';
-import { UpdateLocationUseCase } from '../aplication/usecases/updatelocation.usecase';
-import { UpdateStatusUseCase } from '../aplication/usecases/updatestatus.usecase';
 
 @Module({
   imports: [AuthModule],
@@ -67,27 +64,6 @@ import { UpdateStatusUseCase } from '../aplication/usecases/updatestatus.usecase
       provide: DeleteReportUseCase.UseCase,
       useFactory: (reportRepository: ReportRepository.Repository) => {
         return new DeleteReportUseCase.UseCase(reportRepository);
-      },
-      inject: ['ReportRepository'],
-    },
-    {
-      provide: UpdateDescriptionUseCase.UseCase,
-      useFactory: (reportRepository: ReportRepository.Repository) => {
-        return new UpdateDescriptionUseCase.UseCase(reportRepository);
-      },
-      inject: ['ReportRepository'],
-    },
-    {
-      provide: UpdateLocationUseCase.UseCase,
-      useFactory: (reportRepository: ReportRepository.Repository) => {
-        return new UpdateLocationUseCase.UseCase(reportRepository);
-      },
-      inject: ['ReportRepository'],
-    },
-    {
-      provide: UpdateStatusUseCase.UseCase,
-      useFactory: (reportRepository: ReportRepository.Repository) => {
-        return new UpdateStatusUseCase.UseCase(reportRepository);
       },
       inject: ['ReportRepository'],
     },

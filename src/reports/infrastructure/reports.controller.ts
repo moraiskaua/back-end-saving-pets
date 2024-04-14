@@ -9,7 +9,6 @@ import {
   UseGuards,
   Put,
   HttpCode,
-  Patch,
   Query,
 } from '@nestjs/common';
 import {
@@ -25,12 +24,6 @@ import { GetReportUseCase } from '../aplication/usecases/getreport.usecase';
 import { UpdateReportUseCase } from '../aplication/usecases/updatereport.usecase';
 import { UpdateReportDto } from '../aplication/dto/updatereport.dto';
 import { DeleteReportUseCase } from '../aplication/usecases/deletereport.usecase';
-import { UpdateDescriptionDto } from '../aplication/dto/updatedescription.dto';
-import { UpdateDescriptionUseCase } from '../aplication/usecases/updatedescription.usecase';
-import { UpdateLocationDto } from '../aplication/dto/updatelocation.dto';
-import { UpdateLocationUseCase } from '../aplication/usecases/updatelocation.usecase';
-import { UpdateStatusDto } from '../aplication/dto/updatestatus.dto';
-import { UpdateStatusUseCase } from '../aplication/usecases/updatestatus.usecase';
 import { ActiveUserId } from '@/shared/domain/decorators/ActiveUserId';
 import { ListReportsDto } from '../aplication/dto/listreports.dto';
 
@@ -47,15 +40,6 @@ export class ReportsController {
 
   @Inject(UpdateReportUseCase.UseCase)
   private updateReportUseCase: UpdateReportUseCase.UseCase;
-
-  @Inject(UpdateDescriptionUseCase.UseCase)
-  private updateDescriptionUseCase: UpdateDescriptionUseCase.UseCase;
-
-  @Inject(UpdateLocationUseCase.UseCase)
-  private updateLocationUseCase: UpdateLocationUseCase.UseCase;
-
-  @Inject(UpdateStatusUseCase.UseCase)
-  private updateStatusUseCase: UpdateStatusUseCase.UseCase;
 
   @Inject(DeleteReportUseCase.UseCase)
   private deleteReportUseCase: DeleteReportUseCase.UseCase;
@@ -107,48 +91,6 @@ export class ReportsController {
     const output = await this.updateReportUseCase.execute({
       id,
       ...updateReportDto,
-    });
-
-    return ReportsController.reportToResponse(output);
-  }
-
-  @UseGuards(AuthGuard)
-  @Patch(':id/description')
-  async updateDescription(
-    @Param('id') id: string,
-    @Body() updateDescriptionDto: UpdateDescriptionDto,
-  ) {
-    const output = await this.updateDescriptionUseCase.execute({
-      id,
-      ...updateDescriptionDto,
-    });
-
-    return ReportsController.reportToResponse(output);
-  }
-
-  @UseGuards(AuthGuard)
-  @Patch(':id/location')
-  async updateLocation(
-    @Param('id') id: string,
-    @Body() updateLocationDto: UpdateLocationDto,
-  ) {
-    const output = await this.updateLocationUseCase.execute({
-      id,
-      ...updateLocationDto,
-    });
-
-    return ReportsController.reportToResponse(output);
-  }
-
-  @UseGuards(AuthGuard)
-  @Patch(':id/status')
-  async updateStatus(
-    @Param('id') id: string,
-    @Body() updateStatusDto: UpdateStatusDto,
-  ) {
-    const output = await this.updateStatusUseCase.execute({
-      id,
-      ...updateStatusDto,
     });
 
     return ReportsController.reportToResponse(output);
