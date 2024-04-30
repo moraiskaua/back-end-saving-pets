@@ -4,6 +4,7 @@ import { UsersModule } from './users/infrastructure/users.module';
 import { DatabaseModule } from './shared/infrastructure/database/database.module';
 import { AuthModule } from './auth/infrastructure/auth.module';
 import { ReportsModule } from './reports/infrastructure/reports.module';
+import { SheltersModule } from './shelters/infrastructure/shelters.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { ReportsModule } from './reports/infrastructure/reports.module';
     DatabaseModule,
     AuthModule,
     ReportsModule,
+    SheltersModule,
   ],
   controllers: [],
   providers: [],
