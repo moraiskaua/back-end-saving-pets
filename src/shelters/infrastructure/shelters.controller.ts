@@ -3,7 +3,6 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
   Inject,
@@ -25,6 +24,7 @@ import { AuthGuard } from '@/auth/infrastructure/auth.guard';
 import { ListSheltersDto } from '../aplication/dto/listshelters.dto';
 import { UpdateShelterUseCase } from '../aplication/usecases/updateshelter.usecase';
 import { DeleteShelterUseCase } from '../aplication/usecases/deleteshelter.usecase';
+import { GetShelterUseCase } from '../aplication/usecases/getshelter.usecase';
 
 @Controller('shelters')
 export class SheltersController {
@@ -33,6 +33,9 @@ export class SheltersController {
 
   @Inject(ListSheltersUseCase.UseCase)
   private listSheltersUseCase: ListSheltersUseCase.UseCase;
+
+  @Inject(GetShelterUseCase.UseCase)
+  private getShelterUseCase: GetShelterUseCase.UseCase;
 
   @Inject(UpdateShelterUseCase.UseCase)
   private updateShelterUseCase: UpdateShelterUseCase.UseCase;
@@ -60,6 +63,13 @@ export class SheltersController {
   async search(@Query() searchParams: ListSheltersDto) {
     const output = await this.listSheltersUseCase.execute(searchParams);
     return SheltersController.listSheltersToResponse(output);
+  }
+
+  @UseGuards(AuthGuard)
+  @Get(':id')
+  async findOne(@Param('id') id: string) {
+    const output = await this.getShelterUseCase.execute({ id });
+    return SheltersController.sheltersToResponse(output);
   }
 
   @UseGuards(AuthGuard)

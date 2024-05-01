@@ -8,6 +8,7 @@ import { AuthModule } from '@/auth/infrastructure/auth.module';
 import { ListSheltersUseCase } from '../aplication/usecases/listshelters.usecase';
 import { UpdateShelterUseCase } from '../aplication/usecases/updateshelter.usecase';
 import { DeleteShelterUseCase } from '../aplication/usecases/deleteshelter.usecase';
+import { GetShelterUseCase } from '../aplication/usecases/getshelter.usecase';
 
 @Module({
   imports: [AuthModule],
@@ -35,6 +36,13 @@ import { DeleteShelterUseCase } from '../aplication/usecases/deleteshelter.useca
       provide: ListSheltersUseCase.UseCase,
       useFactory: (shelterRepository: ShelterRepository.Repository) => {
         return new ListSheltersUseCase.UseCase(shelterRepository);
+      },
+      inject: ['ShelterRepository'],
+    },
+    {
+      provide: GetShelterUseCase.UseCase,
+      useFactory: (shelterRepository: ShelterRepository.Repository) => {
+        return new GetShelterUseCase.UseCase(shelterRepository);
       },
       inject: ['ShelterRepository'],
     },
