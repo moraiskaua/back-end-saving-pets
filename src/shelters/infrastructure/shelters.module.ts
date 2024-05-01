@@ -4,8 +4,11 @@ import { PrismaService } from '@/shared/infrastructure/database/prisma/prisma.se
 import { ShelterPrismaRepository } from './database/prisma/repositories/shelters-prisma.repository';
 import { CreateShelterUseCase } from '../aplication/usecases/createshelter.usecase';
 import { ShelterRepository } from '../domain/repositories/shelter.repository';
+import { AuthModule } from '@/auth/infrastructure/auth.module';
+import { ListSheltersUseCase } from '../aplication/usecases/listshelters.usecase';
 
 @Module({
+  imports: [AuthModule],
   controllers: [SheltersController],
   providers: [
     {
@@ -21,8 +24,15 @@ import { ShelterRepository } from '../domain/repositories/shelter.repository';
     },
     {
       provide: CreateShelterUseCase.UseCase,
-      useFactory: (reportRepository: ShelterRepository.Repository) => {
-        return new CreateShelterUseCase.UseCase(reportRepository);
+      useFactory: (shelterRepository: ShelterRepository.Repository) => {
+        return new CreateShelterUseCase.UseCase(shelterRepository);
+      },
+      inject: ['ShelterRepository'],
+    },
+    {
+      provide: ListSheltersUseCase.UseCase,
+      useFactory: (shelterRepository: ShelterRepository.Repository) => {
+        return new ListSheltersUseCase.UseCase(shelterRepository);
       },
       inject: ['ShelterRepository'],
     },

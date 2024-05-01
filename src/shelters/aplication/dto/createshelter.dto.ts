@@ -1,5 +1,5 @@
 /* eslint-disable indent */
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsArray, IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateShelterDto {
   @IsString()
@@ -26,7 +26,7 @@ export class CreateShelterDto {
   @IsNotEmpty()
   openingHours: string;
 
-  @IsString()
+  @IsArray()
   @IsNotEmpty()
   images: string[];
 }

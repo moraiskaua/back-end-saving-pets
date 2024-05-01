@@ -33,13 +33,6 @@ import { DeleteReportUseCase } from '../aplication/usecases/deletereport.usecase
       inject: ['ReportRepository'],
     },
     {
-      provide: CreateReportUseCase.UseCase,
-      useFactory: (reportRepository: ReportRepository.Repository) => {
-        return new CreateReportUseCase.UseCase(reportRepository);
-      },
-      inject: ['ReportRepository'],
-    },
-    {
       provide: GetReportUseCase.UseCase,
       useFactory: (reportRepository: ReportRepository.Repository) => {
         return new GetReportUseCase.UseCase(reportRepository);
