@@ -1,7 +1,13 @@
 /* eslint-disable indent */
 import { ClassValidatorFields } from '@/shared/domain/validators/class-validator-fields';
 import { ShelterProps } from '@/shelters/entities/shelter.entity';
-import { IsDate, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import {
+  IsArray,
+  IsDate,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class ShelterRules {
   @IsString()
@@ -28,7 +34,7 @@ export class ShelterRules {
   @IsNotEmpty()
   openingHours: string;
 
-  @IsString()
+  @IsArray()
   @IsNotEmpty()
   images: string[];
 
