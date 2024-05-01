@@ -9,6 +9,8 @@ import {
   Inject,
   UseGuards,
   Query,
+  Put,
+  HttpCode,
 } from '@nestjs/common';
 import { CreateShelterDto } from '../aplication/dto/createshelter.dto';
 import { UpdateShelterDto } from '../aplication/dto/updateshelter.dto';
@@ -21,6 +23,8 @@ import { ShelterOutput } from '../aplication/dto/shelter-output';
 import { ListSheltersUseCase } from '../aplication/usecases/listshelters.usecase';
 import { AuthGuard } from '@/auth/infrastructure/auth.guard';
 import { ListSheltersDto } from '../aplication/dto/listshelters.dto';
+import { UpdateShelterUseCase } from '../aplication/usecases/updateshelter.usecase';
+import { DeleteShelterUseCase } from '../aplication/usecases/deleteshelter.usecase';
 
 @Controller('shelters')
 export class SheltersController {
@@ -29,6 +33,12 @@ export class SheltersController {
 
   @Inject(ListSheltersUseCase.UseCase)
   private listSheltersUseCase: ListSheltersUseCase.UseCase;
+
+  @Inject(UpdateShelterUseCase.UseCase)
+  private updateShelterUseCase: UpdateShelterUseCase.UseCase;
+
+  @Inject(DeleteShelterUseCase.UseCase)
+  private deleteShelterUseCase: DeleteShelterUseCase.UseCase;
 
   static sheltersToResponse(output: ShelterOutput) {
     return new ShelterPresenter(output);
@@ -52,18 +62,24 @@ export class SheltersController {
     return SheltersController.listSheltersToResponse(output);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    // return this.sheltersService.findOne(+id);
+  @UseGuards(AuthGuard)
+  @Put(':id')
+  async update(
+    @Param('id') id: string,
+    @Body() updateShelterDto: UpdateShelterDto,
+  ) {
+    const output = await this.updateShelterUseCase.execute({
+      id,
+      ...updateShelterDto,
+    });
+
+    return SheltersController.sheltersToResponse(output);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateShelterDto: UpdateShelterDto) {
-    // return this.sheltersService.update(+id, updateShelterDto);
-  }
-
+  @UseGuards(AuthGuard)
+  @HttpCode(204)
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    // return this.sheltersService.remove(+id);
+  async remove(@Param('id') id: string) {
+    await this.deleteShelterUseCase.execute({ id });
   }
 }

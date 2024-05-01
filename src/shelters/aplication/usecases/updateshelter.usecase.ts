@@ -3,7 +3,6 @@ import { BadRequestError } from '@/shared/application/errors/bad-request-error';
 import { NotFoundError } from '@/shared/domain/errors/not-found-error';
 import { ShelterOutput, ShelterOutputMapper } from '../dto/shelter-output';
 import { ShelterRepository } from '@/shelters/domain/repositories/shelter.repository';
-import { ShelterEntity } from '@/shelters/entities/shelter.entity';
 
 export namespace UpdateShelterUseCase {
   export type Input = {
@@ -38,10 +37,10 @@ export namespace UpdateShelterUseCase {
         throw new BadRequestError('Missing params');
       }
 
-      const entity = new ShelterEntity(Object.assign(input));
+      const entity = await this.shelterRepository.findById(input.id);
 
       if (!entity) {
-        throw new NotFoundError('Report not found');
+        throw new NotFoundError('Shelter not found');
       }
 
       entity.update({

@@ -1,6 +1,6 @@
 /* eslint-disable indent */
 
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsArray, IsNotEmpty, IsString } from 'class-validator';
 import { UpdateShelterUseCase } from '../usecases/updateshelter.usecase';
 
 export class UpdateShelterDto
@@ -30,7 +30,7 @@ export class UpdateShelterDto
   @IsNotEmpty()
   openingHours: string;
 
-  @IsString()
+  @IsArray()
   @IsNotEmpty()
   images: string[];
 }

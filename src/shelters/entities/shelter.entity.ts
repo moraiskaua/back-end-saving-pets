@@ -4,7 +4,6 @@ import { ShelterValidatorFactory } from '../domain/validators/shelter.validator'
 import { UpdateShelterDto } from '../aplication/dto/updateshelter.dto';
 
 export type ShelterProps = {
-  id: string;
   name: string;
   email: string;
   phone: string;

@@ -97,8 +97,9 @@ export class ShelterPrismaRepository implements ShelterRepository.Repository {
       });
 
       return ShelterModelMapper.toEntity(report);
-    } catch {
-      throw new NotFoundError('Report not found');
+    } catch (e) {
+      console.log(e);
+      throw new NotFoundError('Shelter not found');
     }
   }
 }

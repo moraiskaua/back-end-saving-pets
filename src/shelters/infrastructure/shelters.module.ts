@@ -1,11 +1,13 @@
 import { Module } from '@nestjs/common';
 import { SheltersController } from './shelters.controller';
 import { PrismaService } from '@/shared/infrastructure/database/prisma/prisma.service';
-import { ShelterPrismaRepository } from './database/prisma/repositories/shelters-prisma.repository';
+import { ShelterPrismaRepository } from './database/prisma/repositories/shelter-prisma.repository';
 import { CreateShelterUseCase } from '../aplication/usecases/createshelter.usecase';
 import { ShelterRepository } from '../domain/repositories/shelter.repository';
 import { AuthModule } from '@/auth/infrastructure/auth.module';
 import { ListSheltersUseCase } from '../aplication/usecases/listshelters.usecase';
+import { UpdateShelterUseCase } from '../aplication/usecases/updateshelter.usecase';
+import { DeleteShelterUseCase } from '../aplication/usecases/deleteshelter.usecase';
 
 @Module({
   imports: [AuthModule],
@@ -33,6 +35,20 @@ import { ListSheltersUseCase } from '../aplication/usecases/listshelters.usecase
       provide: ListSheltersUseCase.UseCase,
       useFactory: (shelterRepository: ShelterRepository.Repository) => {
         return new ListSheltersUseCase.UseCase(shelterRepository);
+      },
+      inject: ['ShelterRepository'],
+    },
+    {
+      provide: UpdateShelterUseCase.UseCase,
+      useFactory: (shelterRepository: ShelterRepository.Repository) => {
+        return new UpdateShelterUseCase.UseCase(shelterRepository);
+      },
+      inject: ['ShelterRepository'],
+    },
+    {
+      provide: DeleteShelterUseCase.UseCase,
+      useFactory: (shelterRepository: ShelterRepository.Repository) => {
+        return new DeleteShelterUseCase.UseCase(shelterRepository);
       },
       inject: ['ShelterRepository'],
     },
