@@ -21,4 +21,12 @@ export class EnvConfigService implements EnvConfig {
   getJwtExpirationTime(): number {
     return Number(this.configService.get<number>('JWT_EXPIRES_IN'));
   }
+
+  getEmailUser(): string {
+    return this.configService.get<string>('EMAIL_USER');
+  }
+
+  getEmailPassword(): string {
+    return this.configService.get<string>('EMAIL_PASSWORD');
+  }
 }
