@@ -8,7 +8,8 @@ export namespace UpdatePasswordUseCase {
   export type Input = {
     id: string;
     password: string;
-    oldPassword: string;
+    oldPassword?: string;
+    token?: string;
   };
 
   export type Output = UserOutput;
@@ -22,25 +23,35 @@ export namespace UpdatePasswordUseCase {
     async execute(input: Input): Promise<Output> {
       const entity = await this.userRepository.findById(input.id);
 
-      if (!input.password || !input.oldPassword) {
-        throw new InvalidPasswordError(
-          'Old password and new password are required',
-        );
+      if (!input.password) {
+        throw new InvalidPasswordError('New password is required');
       }
 
-      const oldPasswordIsValid = await this.hashProvider.compareHash(
-        input.oldPassword,
-        entity.password,
-      );
+      if (input.oldPassword) {
+        const oldPasswordIsValid = await this.hashProvider.compareHash(
+          input.oldPassword,
+          entity.password,
+        );
 
-      if (!oldPasswordIsValid) {
-        throw new InvalidPasswordError('Old password is invalid');
+        if (!oldPasswordIsValid) {
+          throw new InvalidPasswordError('Old password is invalid');
+        }
+      } else if (input.token) {
+        if (
+          input.token !== entity.resetPasswordToken ||
+          new Date() > entity.resetPasswordExpires
+        ) {
+          throw new InvalidPasswordError('Token is invalid or expired');
+        }
+
+        await this.userRepository.clearResetPasswordToken(entity.id);
+      } else {
+        throw new InvalidPasswordError('Old password or token is required');
       }
 
       const hashedPassword = await this.hashProvider.generateHash(
         input.password,
       );
-
       entity.updatePassword(hashedPassword);
       await this.userRepository.update(entity);
 

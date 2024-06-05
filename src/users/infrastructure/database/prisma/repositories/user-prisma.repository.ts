@@ -78,6 +78,30 @@ export class UserPrismaRepository implements UserRepository.Repository {
     });
   }
 
+  async setResetPasswordToken(
+    id: string,
+    token: string,
+    expires: Date,
+  ): Promise<void> {
+    await this.prismaService.user.update({
+      where: { id },
+      data: {
+        resetPasswordToken: token,
+        resetPasswordExpires: expires,
+      },
+    });
+  }
+
+  async clearResetPasswordToken(id: string): Promise<void> {
+    await this.prismaService.user.update({
+      where: { id },
+      data: {
+        resetPasswordToken: null,
+        resetPasswordExpires: null,
+      },
+    });
+  }
+
   async insert(entity: UserEntity): Promise<void> {
     await this.prismaService.user.create({
       data: entity.toJSON(),
