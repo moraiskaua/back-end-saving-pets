@@ -3,10 +3,15 @@ import { UserOutput, UserOutputMapper } from '../dtos/user-output';
 import { UseCase as DefaultUseCase } from '@/shared/application/usecases/use-case';
 import { InvalidPasswordError } from '@/shared/application/errors/invalid-password-error';
 import { HashProvider } from '@/shared/application/providers/hash-provider';
+import nodemailer from 'nodemailer';
+import { EnvConfigService } from '@/shared/infrastructure/env-config/env-config.service';
+import { InternalServerErrorException } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { UpdatePasswordWithTokenDto } from '@/users/infrastructure/dtos/updatepasswordwithtoken.dto';
 
 export namespace UpdatePasswordUseCase {
   export type Input = {
-    id: string;
+    email: string;
     password: string;
     oldPassword?: string;
     token?: string;
@@ -21,7 +26,7 @@ export namespace UpdatePasswordUseCase {
     ) {}
 
     async execute(input: Input): Promise<Output> {
-      const entity = await this.userRepository.findById(input.id);
+      const entity = await this.userRepository.findByEmail(input.email);
 
       if (!input.password) {
         throw new InvalidPasswordError('New password is required');
@@ -56,6 +61,38 @@ export namespace UpdatePasswordUseCase {
       await this.userRepository.update(entity);
 
       return UserOutputMapper.toOutput(entity);
+    }
+
+    async sendEmailToUpdatePassword(
+      updatePasswordWithTokenDto: UpdatePasswordWithTokenDto,
+    ): Promise<void> {
+      const envConfigService = new EnvConfigService(new ConfigService());
+      const token = this.hashProvider.generateResetToken();
+      const { email } = updatePasswordWithTokenDto;
+
+      try {
+        const transporter = nodemailer.createTransport({
+          service: 'gmail',
+          auth: {
+            user: envConfigService.getEmailUser(),
+            pass: envConfigService.getEmailPassword(),
+          },
+        });
+
+        const mailOptions = {
+          from: envConfigService.getEmailUser(),
+          to: email,
+          subject: 'Redefinição de Senha',
+          text: `Você solicitou a redefinição de senha para sua conta.
+          O seu token de redefinição é: ${token}`,
+        };
+
+        await transporter.sendMail(mailOptions);
+      } catch {
+        throw new InternalServerErrorException(
+          'Erro ao gerar token de redefinição de senha',
+        );
+      }
     }
   }
 }

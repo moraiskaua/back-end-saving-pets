@@ -35,6 +35,7 @@ import { UpdatePhoneDto } from './dtos/updatephone.dto';
 import { UpdatePhoneUseCase } from '../application/usecases/updatephone.usecase';
 import { UpdateImageDto } from './dtos/updateimage.dto';
 import { UpdateImageUseCase } from '../application/usecases/updateimage.usecase';
+import { UpdatePasswordWithTokenDto } from './dtos/updatepasswordwithtoken.dto';
 
 @Controller('users')
 export class UsersController {
@@ -114,14 +115,20 @@ export class UsersController {
     return UsersController.userToResponse(output);
   }
 
+  @HttpCode(200)
+  @Post('/updatePassword')
+  async sendEmailToUpdatePassword(
+    @Body() updatePasswordWithTokenDto: UpdatePasswordWithTokenDto,
+  ) {
+    await this.updatePasswordUseCase.sendEmailToUpdatePassword(
+      updatePasswordWithTokenDto,
+    );
+  }
+
   @UseGuards(AuthGuard)
   @Patch(':id')
-  async updatePassword(
-    @Param('id') id: string,
-    @Body() updatePasswordDto: UpdatePasswordDto,
-  ) {
+  async updatePassword(@Body() updatePasswordDto: UpdatePasswordDto) {
     const output = await this.updatePasswordUseCase.execute({
-      id,
       ...updatePasswordDto,
     });
 
