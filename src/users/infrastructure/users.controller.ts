@@ -116,7 +116,7 @@ export class UsersController {
   }
 
   @HttpCode(200)
-  @Post('/updatePassword')
+  @Post('/recoveryPasswordEmail')
   async sendEmailToUpdatePassword(
     @Body() updatePasswordWithTokenDto: UpdatePasswordWithTokenDto,
   ) {
