@@ -11,6 +11,8 @@ export class UserModelMapper {
       password: model.password,
       cpf: model.cpf,
       phone: model.phone,
+      resetPasswordToken: model.resetPasswordToken,
+      resetPasswordExpires: model.resetPasswordExpires,
       createdAt: model.createdAt,
     };
 

@@ -27,6 +27,7 @@ export namespace UpdatePasswordUseCase {
 
     async execute(input: Input): Promise<Output> {
       const entity = await this.userRepository.findByEmail(input.email);
+      console.log(input);
 
       if (!input.password) {
         throw new InvalidPasswordError('New password is required');
@@ -69,6 +70,9 @@ export namespace UpdatePasswordUseCase {
       const envConfigService = new EnvConfigService(new ConfigService());
       const token = this.hashProvider.generateResetToken();
       const { email } = updatePasswordWithTokenDto;
+      const entity = await this.userRepository.findByEmail(email);
+
+      await this.userRepository.setResetPasswordToken(entity.id, token);
 
       try {
         const transporter = nodemailer.createTransport({

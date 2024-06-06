@@ -8,6 +8,8 @@ export type UserOutput = {
   password: string;
   cpf: string;
   phone: string;
+  resetPasswordToken: string;
+  resetPasswordExpires: Date;
   createdAt: Date;
 };
 

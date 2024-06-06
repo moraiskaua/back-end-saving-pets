@@ -78,16 +78,15 @@ export class UserPrismaRepository implements UserRepository.Repository {
     });
   }
 
-  async setResetPasswordToken(
-    id: string,
-    token: string,
-    expires: Date,
-  ): Promise<void> {
+  async setResetPasswordToken(id: string, token: string): Promise<void> {
+    const expiresDate = new Date();
+    const newExpiresDate = expiresDate.setMinutes(expiresDate.getMinutes() + 2);
+
     await this.prismaService.user.update({
       where: { id },
       data: {
         resetPasswordToken: token,
-        resetPasswordExpires: expires,
+        resetPasswordExpires: new Date(newExpiresDate),
       },
     });
   }

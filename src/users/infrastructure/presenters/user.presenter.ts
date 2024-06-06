@@ -11,9 +11,13 @@ export class UserPresenter {
   email: string;
   cpf: string;
   phone: string;
+  resetPasswordToken: string;
 
   @Transform(({ value }: { value: Date }) => value.toISOString())
   createdAt: Date;
+
+  @Transform(({ value }: { value: Date }) => value.toISOString())
+  resetPasswordExpires: Date;
 
   constructor(output: UserOutput) {
     this.id = output.id;
@@ -22,6 +26,8 @@ export class UserPresenter {
     this.email = output.email;
     this.cpf = output.cpf;
     this.phone = output.phone;
+    this.resetPasswordToken = output.resetPasswordToken;
+    this.resetPasswordExpires = output.resetPasswordExpires;
     this.createdAt = output.createdAt;
   }
 }
