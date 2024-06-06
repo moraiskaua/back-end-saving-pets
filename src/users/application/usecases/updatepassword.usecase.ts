@@ -27,7 +27,6 @@ export namespace UpdatePasswordUseCase {
 
     async execute(input: Input): Promise<Output> {
       const entity = await this.userRepository.findByEmail(input.email);
-      console.log(input);
 
       if (!input.password) {
         throw new InvalidPasswordError('New password is required');
