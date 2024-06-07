@@ -16,7 +16,6 @@ export class UserPresenter {
   @Transform(({ value }: { value: Date }) => value.toISOString())
   createdAt: Date;
 
-  @Transform(({ value }: { value: Date }) => value.toISOString())
   resetPasswordExpires: Date;
 
   constructor(output: UserOutput) {
