@@ -16,6 +16,10 @@ export class UserRules {
   @IsNotEmpty()
   name: string;
 
+  @IsString()
+  @IsOptional()
+  image?: string;
+
   @MaxLength(255)
   @IsString()
   @IsEmail()
@@ -34,15 +38,31 @@ export class UserRules {
 
   @MaxLength(18)
   @IsString()
-  @IsOptional()
-  phone?: string;
+  @IsNotEmpty()
+  phone: string;
 
   @IsDate()
   @IsOptional()
   createdAt?: Date;
 
-  constructor({ name, email, password, cpf, phone, createdAt }: UserProps) {
-    Object.assign(this, { name, email, password, cpf, phone, createdAt });
+  constructor({
+    name,
+    image,
+    email,
+    password,
+    cpf,
+    phone,
+    createdAt,
+  }: UserProps) {
+    Object.assign(this, {
+      name,
+      image,
+      email,
+      password,
+      cpf,
+      phone,
+      createdAt,
+    });
   }
 }
 

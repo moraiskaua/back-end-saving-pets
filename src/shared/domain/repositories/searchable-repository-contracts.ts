@@ -27,13 +27,23 @@ export class SearchParams<Filter = string> {
   protected _sort: string | null;
   protected _sortDir: SortDirection | null;
   protected _filter: Filter | null;
+  protected _userId: string | null;
 
-  constructor(props: SearchProps<Filter> = {}) {
+  constructor(props: SearchProps<Filter> & { userId?: string } = {}) {
     this.page = props.page;
     this.perPage = props.perPage;
     this.sort = props.sort;
     this.sortDir = props.sortDir;
     this.filter = props.filter;
+    this.userId = props.userId;
+  }
+
+  get userId(): string | null {
+    return this._userId;
+  }
+
+  private set userId(value: string | null) {
+    this._userId = value;
   }
 
   get page(): number {

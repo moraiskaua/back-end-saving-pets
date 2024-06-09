@@ -23,9 +23,9 @@ export namespace SignupUseCase {
     ) {}
 
     async execute(input: Input): Promise<Output> {
-      const { name, email, password, cpf } = input;
+      const { name, email, password, cpf, phone } = input;
 
-      if (!name || !email || !password || !cpf) {
+      if (!name || !email || !password || !cpf || !phone) {
         throw new BadRequestError('Missing params');
       }
 

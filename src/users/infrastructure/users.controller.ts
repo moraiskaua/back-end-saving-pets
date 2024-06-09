@@ -33,6 +33,9 @@ import { AuthService } from '@/auth/infrastructure/auth.service';
 import { AuthGuard } from '@/auth/infrastructure/auth.guard';
 import { UpdatePhoneDto } from './dtos/updatephone.dto';
 import { UpdatePhoneUseCase } from '../application/usecases/updatephone.usecase';
+import { UpdateImageDto } from './dtos/updateimage.dto';
+import { UpdateImageUseCase } from '../application/usecases/updateimage.usecase';
+import { UpdatePasswordWithTokenDto } from './dtos/updatepasswordwithtoken.dto';
 
 @Controller('users')
 export class UsersController {
@@ -50,6 +53,9 @@ export class UsersController {
 
   @Inject(UpdatePhoneUseCase.UseCase)
   private updatePhoneUseCase: UpdatePhoneUseCase.UseCase;
+
+  @Inject(UpdateImageUseCase.UseCase)
+  private updateImageUseCase: UpdateImageUseCase.UseCase;
 
   @Inject(DeleteUserUseCase.UseCase)
   private deleteUserUseCase: DeleteUserUseCase.UseCase;
@@ -109,14 +115,20 @@ export class UsersController {
     return UsersController.userToResponse(output);
   }
 
-  @UseGuards(AuthGuard)
-  @Patch(':id')
-  async updatePassword(
-    @Param('id') id: string,
-    @Body() updatePasswordDto: UpdatePasswordDto,
+  @HttpCode(200)
+  @Post('/recoveryPasswordEmail')
+  async sendEmailToUpdatePassword(
+    @Body() updatePasswordWithTokenDto: UpdatePasswordWithTokenDto,
   ) {
+    await this.updatePasswordUseCase.sendEmailToUpdatePassword(
+      updatePasswordWithTokenDto,
+    );
+  }
+
+  @UseGuards(AuthGuard)
+  @Patch()
+  async updatePassword(@Body() updatePasswordDto: UpdatePasswordDto) {
     const output = await this.updatePasswordUseCase.execute({
-      id,
       ...updatePasswordDto,
     });
 
@@ -132,6 +144,20 @@ export class UsersController {
     const output = await this.updatePhoneUseCase.execute({
       id,
       ...updatePhoneDto,
+    });
+
+    return UsersController.userToResponse(output);
+  }
+
+  @UseGuards(AuthGuard)
+  @Patch(':id/image')
+  async updateImage(
+    @Param('id') id: string,
+    @Body() updateImageDto: UpdateImageDto,
+  ) {
+    const output = await this.updateImageUseCase.execute({
+      id,
+      ...updateImageDto,
     });
 
     return UsersController.userToResponse(output);

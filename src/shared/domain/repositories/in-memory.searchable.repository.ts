@@ -1,6 +1,5 @@
 /* eslint-disable indent */
 import { Entity } from '../entities/entity';
-import { NotFoundError } from '../errors/not-found-error';
 import { InMemoryRepository } from './in-memory.repository';
 import {
   SearchParams,

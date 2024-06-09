@@ -4,10 +4,13 @@ import { EntityValidationError } from '@/shared/domain/errors/validation-error';
 
 export type UserProps = {
   name: string;
+  image?: string;
   email: string;
   password: string;
   cpf: string;
-  phone?: string;
+  phone: string;
+  resetPasswordToken?: string;
+  resetPasswordExpires?: Date;
   createdAt?: Date;
 };
 
@@ -19,7 +22,6 @@ export class UserEntity extends Entity<UserProps> {
     UserEntity.validate(props);
     super(props, id);
     this.props.createdAt = this.props.createdAt ?? new Date();
-    this.props.phone = this.props.phone ?? '';
   }
 
   update(value: string): void {
@@ -37,12 +39,35 @@ export class UserEntity extends Entity<UserProps> {
     this.props.phone = value;
   }
 
+  updateImage(value: string): void {
+    UserEntity.validate({ ...this.props, image: value });
+    this.props.image = value;
+  }
+
+  setResetPasswordToken(token: string, expires: Date): void {
+    this.props.resetPasswordToken = token;
+    this.props.resetPasswordExpires = expires;
+  }
+
+  clearResetPasswordToken(): void {
+    this.props.resetPasswordToken = null;
+    this.props.resetPasswordExpires = null;
+  }
+
   get name(): string {
     return this.props.name;
   }
 
   private set name(value: string) {
     this.props.name = value;
+  }
+
+  get image(): string {
+    return this.props.image;
+  }
+
+  private set image(value: string) {
+    this.props.image = value;
   }
 
   get email(): string {
@@ -67,6 +92,14 @@ export class UserEntity extends Entity<UserProps> {
 
   get createdAt(): Date {
     return this.props.createdAt;
+  }
+
+  get resetPasswordToken(): string {
+    return this.props.resetPasswordToken;
+  }
+
+  get resetPasswordExpires(): Date {
+    return this.props.resetPasswordExpires;
   }
 
   static validate(props: UserProps) {

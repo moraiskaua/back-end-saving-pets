@@ -3,4 +3,6 @@ export interface EnvConfig {
   getNodeEnv(): string;
   getJwtSecret(): string;
   getJwtExpirationTime(): number;
+  getEmailUser(): string;
+  getEmailPassword(): string;
 }

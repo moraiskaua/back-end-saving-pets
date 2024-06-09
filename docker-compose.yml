@@ -3,7 +3,7 @@ version: '3.1'
 services:
   db:
     build: .
-    container_name: saving-pets-db
+    container_name: pg
     restart: always
     tty: true
     ports:

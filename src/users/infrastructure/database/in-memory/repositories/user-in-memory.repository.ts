@@ -9,6 +9,12 @@ export class UserInMemoryRepository
   extends InMemorySearchableRepository<UserEntity>
   implements UserRepository.Repository
 {
+  setResetPasswordToken(id: string, token: string): Promise<void> {
+    throw new Error('Method not implemented.');
+  }
+  clearResetPasswordToken(id: string): Promise<void> {
+    throw new Error('Method not implemented.');
+  }
   sortableFields: string[] = ['name', 'createdAt'];
 
   async findByEmail(email: string): Promise<UserEntity> {

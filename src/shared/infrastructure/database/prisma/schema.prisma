@@ -12,13 +12,60 @@ datasource db {
 }
 
 model User {
-  id        String   @id @db.Uuid
-  name      String   @db.VarChar(255)
-  email     String   @unique @db.VarChar(255)
-  password  String   @db.VarChar(100)
-  cpf       String   @unique
-  phone     String   @unique @db.VarChar(18)
-  createdAt DateTime @default(now())
+  id                   String    @id @db.Uuid
+  image                String?
+  name                 String    @db.VarChar(255)
+  email                String    @unique @db.VarChar(255)
+  password             String    @db.VarChar(100)
+  cpf                  String    @unique
+  phone                String    @db.VarChar(18)
+  resetPasswordToken   String?
+  resetPasswordExpires DateTime?
+  createdAt            DateTime  @default(now())
+  Report               Report[]
 
   @@map("users")
+}
+
+model Report {
+  id          String       @id @db.Uuid
+  type        TypeOfAbuse  @default(ABANDONO)
+  status      TypeOfStatus @default(EM_ABERTO)
+  description String
+  location    String
+  images      String[]
+  createdAt   DateTime     @default(now())
+
+  userId String @db.Uuid
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@map("reports")
+}
+
+enum TypeOfAbuse {
+  ABANDONO
+  AGRESSAO
+  NEGLIGENCIA
+  EXPLORACAO
+  OUTROS
+}
+
+enum TypeOfStatus {
+  EM_ABERTO
+  EM_ANDAMENTO
+  ATENDIDO
+}
+
+model Shelter {
+  id           String   @id @db.Uuid
+  name         String   @db.VarChar(100)
+  email        String   @unique @db.VarChar(255)
+  phone        String   @db.VarChar(18)
+  address      String
+  website      String?
+  openingHours String
+  images       String[]
+  createdAt    DateTime @default(now())
+
+  @@map("shelters")
 }

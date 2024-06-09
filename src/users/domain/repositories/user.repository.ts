@@ -21,5 +21,7 @@ export namespace UserRepository {
     > {
     findByEmail(email: string): Promise<UserEntity>;
     emailExists(email: string): Promise<void>;
+    setResetPasswordToken(id: string, token: string): Promise<void>;
+    clearResetPasswordToken(id: string): Promise<void>;
   }
 }

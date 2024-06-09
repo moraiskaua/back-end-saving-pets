@@ -6,8 +6,11 @@ import {
 import { AppModule } from './app.module';
 import { applyGlobalConfig } from './global-config';
 import cors from '@fastify/cors';
+import { EnvConfigService } from './shared/infrastructure/env-config/env-config.service';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
+  const envConfigService = new EnvConfigService(new ConfigService());
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
     new FastifyAdapter(),
@@ -21,7 +24,7 @@ async function bootstrap() {
 
   applyGlobalConfig(app);
 
-  const port = process.env.PORT || 8080;
+  const port = envConfigService.getAppPort() || 3000;
   await app.listen(port);
 }
 

@@ -6,20 +6,27 @@ import { Transform } from 'class-transformer';
 
 export class UserPresenter {
   id: string;
+  image: string;
   name: string;
   email: string;
   cpf: string;
   phone: string;
+  resetPasswordToken: string;
 
   @Transform(({ value }: { value: Date }) => value.toISOString())
   createdAt: Date;
 
+  resetPasswordExpires: Date;
+
   constructor(output: UserOutput) {
     this.id = output.id;
+    this.image = output.image;
     this.name = output.name;
     this.email = output.email;
     this.cpf = output.cpf;
     this.phone = output.phone;
+    this.resetPasswordToken = output.resetPasswordToken;
+    this.resetPasswordExpires = output.resetPasswordExpires;
     this.createdAt = output.createdAt;
   }
 }

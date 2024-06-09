@@ -6,10 +6,13 @@ export class UserModelMapper {
   static toEntity(model: UserPrisma) {
     const data = {
       name: model.name,
+      image: model.image,
       email: model.email,
       password: model.password,
       cpf: model.cpf,
       phone: model.phone,
+      resetPasswordToken: model.resetPasswordToken,
+      resetPasswordExpires: model.resetPasswordExpires,
       createdAt: model.createdAt,
     };
 
