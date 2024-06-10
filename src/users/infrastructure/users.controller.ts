@@ -125,7 +125,6 @@ export class UsersController {
     );
   }
 
-  @UseGuards(AuthGuard)
   @Patch()
   async updatePassword(@Body() updatePasswordDto: UpdatePasswordDto) {
     const output = await this.updatePasswordUseCase.execute({
